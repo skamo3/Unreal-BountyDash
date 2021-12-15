@@ -12,6 +12,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "EngineUtils.h"
+#include "Obstacle.h"
 
 
 // Sets default values
@@ -55,12 +56,13 @@ ABountyDashCharacter::ABountyDashCharacter()
 
 	this->FollowCamera->AddRelativeRotation(FQuat(FRotator(-10.0f, 0.0f, 0.0f)));
 
-	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
 	this->CharSpeed = 10.0f;
 
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ABountyDashCharacter::MyOnComponentOverlap);
 	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &ABountyDashCharacter::MyOnComponentEndOverlap);
+
+	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
 }
 
@@ -91,12 +93,18 @@ void ABountyDashCharacter::Tick(float DeltaTime)
 	{
 		FVector targetLoc = TargetArray[CurrentLocation]->GetActorLocation();
 		targetLoc.Z = GetActorLocation().Z;
-		targetLoc.X = GetActorLocation().Y;
+		targetLoc.X = GetActorLocation().X;
 
 		if (targetLoc != GetActorLocation())
 		{
 			SetActorLocation(FMath::Lerp(GetActorLocation(), targetLoc, CharSpeed * DeltaTime));
 		}
+	}
+
+	if (this->bBeingPushed)
+	{
+		float moveSpeed = GetCustomGameMode<ABountyDashGameMode>(GetWorld())->GetInvGameSpeed();
+		AddActorLocalOffset(FVector(moveSpeed, 0.0f, 0.0f));
 	}
 }
 
@@ -147,13 +155,26 @@ void ABountyDashCharacter::MyOnComponentOverlap(UPrimitiveComponent* OverlappedC
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
 	bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (OtherActor->GetClass()->IsChildOf(AObstacle::StaticClass()))
+	{
+		FVector vecBetween = OtherActor->GetActorLocation() - GetActorLocation();
+		float AngleBetween = FMath::Acos(FVector::DotProduct(vecBetween.GetSafeNormal(), GetActorForwardVector().GetSafeNormal()));
 
+		AngleBetween *= (180 / PI);
+		if (AngleBetween < 60.0f)
+		{
+			this->bBeingPushed = true;
+		}
+	}
 }
 
 void ABountyDashCharacter::MyOnComponentEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-
+	if (OtherActor->GetClass()->IsChildOf(AObstacle::StaticClass()))
+	{
+		this->bBeingPushed = false;
+	}
 }
 
 void ABountyDashCharacter::ScoreUp()
