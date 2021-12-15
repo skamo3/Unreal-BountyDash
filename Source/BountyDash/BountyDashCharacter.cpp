@@ -179,5 +179,6 @@ void ABountyDashCharacter::MyOnComponentEndOverlap(UPrimitiveComponent* Overlapp
 
 void ABountyDashCharacter::ScoreUp()
 {
-
+	this->Score++;
+	GetCustomGameMode<ABountyDashGameMode>(GetWorld())->CharScoreUp(Score);
 }

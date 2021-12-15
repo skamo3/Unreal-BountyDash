@@ -31,4 +31,11 @@ void ACoin::MyOnActorOverlap(AActor* OverlappedActor, AActor* otherActor)
 			AddActorLocalOffset(FVector(0.0f, 0.0f, (otherSphere->GetUnscaledSphereRadius() * 2.0f) + Collider->GetUnscaledSphereRadius()));
 		}
 	}
+
+	if (otherActor->GetClass()->IsChildOf(ABountyDashCharacter::StaticClass()))
+	{
+		ABountyDashCharacter* myChar = Cast<ABountyDashCharacter>(otherActor);
+		myChar->ScoreUp();
+		GetWorld()->DestroyActor(this);
+	}
 }
