@@ -6,6 +6,9 @@
 #include "BountyDashObject.h"
 #include "BountyDashPowerUp.generated.h"
 
+/**
+ * 
+ */
 UCLASS()
 class BOUNTYDASH_API ABountyDashPowerUp : public ABountyDashObject
 {

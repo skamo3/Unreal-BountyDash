@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "BountyDash.h"
 #include "PowerUpObject.h"
 #include "BountyDashPowerUp.h"
 
@@ -9,13 +9,13 @@ ABountyDashPowerUp::ABountyDashPowerUp()
 	PrimaryActorTick.bCanEverTick = true;
 
 	PowerUp = CreateDefaultSubobject<UPowerUpObject>(TEXT("PowerUp"));
-	check(this->PowerUp);
+	check(PowerUp);
 
-	this->Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	check(this->PowerUp);
+	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	check(Mesh);
 
-	this->Mesh->AttachTo(RootComponent);
-	this->Mesh->SetCollisionProfileName("OverlapAllDynamic");
+	Mesh->AttachTo(RootComponent);
+	Mesh->SetCollisionProfileName("OverlapAllDynamic");
 
 	FString AssetName;
 	switch (PowerUp->GetType())
@@ -37,7 +37,7 @@ ABountyDashPowerUp::ABountyDashPowerUp()
 
 	if (myMesh.Succeeded())
 	{
-		this->Mesh->SetStaticMesh(myMesh.Object);
+		Mesh->SetStaticMesh(myMesh.Object);
 	}
 }
 

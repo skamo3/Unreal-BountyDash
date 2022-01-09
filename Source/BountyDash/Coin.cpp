@@ -4,12 +4,17 @@
 #include "BountyDash.h"
 #include "BountyDashCharacter.h"
 #include "BountyDashGameMode.h"
+#include "Obstacle.h"
 #include "Coin.h"
 
 
 ACoin::ACoin()
 {
+	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 
+	check(Mesh);
+	Mesh->AttachTo(RootComponent);
+	Mesh->SetCollisionProfileName("OverlapAllDynamic");
 }
 
 void ACoin::Tick(float DeltaTime)

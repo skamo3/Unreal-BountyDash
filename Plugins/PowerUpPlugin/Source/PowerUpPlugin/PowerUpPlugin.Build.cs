@@ -10,7 +10,7 @@ public class PowerUpPlugin : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"PowerUpPlugin/Public",
+				"PowerUpPlugin/Public"
 				// ... add public include paths required here ...
 			}
 			);
@@ -18,7 +18,7 @@ public class PowerUpPlugin : ModuleRules
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				"PowerUpPlugin/Private",
+				"PowerUpPlugin/Private"
 				// ... add other private include paths required here ...
 			}
 			);
@@ -41,9 +41,6 @@ public class PowerUpPlugin : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				"Core",
-				"InputCore",
-				"PowerUpPlugin",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

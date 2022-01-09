@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "CoreUObject.h"
+#include "PowerUpPlugin.h"
 #include "Modules/ModuleManager.h"
 
 class FPowerUpPluginModule : public IModuleInterface

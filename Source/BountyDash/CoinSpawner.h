@@ -16,6 +16,12 @@ public:
 	// Sets default values for this actor's properties
 	ACoinSpawner();
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class ABountyDashPowerUp> PowerUpObject;
+
+	UPROPERTY(EditAnywhere, meta = (ClampMin = "0.0", ClampMax = "100.0", UIMin = "0.0", UIMax = "100.0"))
+	int32 PowerUpChance;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -33,6 +39,8 @@ protected:
 	FTimerHandle CoinSetTimerHandle;
 	FTimerHandle CoinTimerHandle;
 	FTimerHandle SpawnMoveTimerHandle;
+
+	void SpawnPowerUp();
 
 public:	
 	

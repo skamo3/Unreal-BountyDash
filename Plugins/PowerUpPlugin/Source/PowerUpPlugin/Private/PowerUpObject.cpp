@@ -1,9 +1,11 @@
+#include "PowerUpPlugin.h"
 #include "PowerUpObject.h"
 
 UPowerUpObject::UPowerUpObject(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 	int iType = FMath::Rand() % 3;
+
 	switch (iType)
 	{
 	case 0:
