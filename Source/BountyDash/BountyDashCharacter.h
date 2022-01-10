@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "PowerUpObject.h"
 #include "BountyDashCharacter.generated.h"
 
 UCLASS()
@@ -53,10 +54,29 @@ protected:
 	void MyOnComponentEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	UPROPERTY(EditAnywhere, Category = PowerUps)
+	float SmashTime;
+
+	UPROPERTY(EditAnywhere, Category = PowerUps)
+	float MagnetTime;
+
+	UPROPERTY(EditAnywhere, Category = PowerUps)
+	float MagnetReach;
+
+	UFUNCTION()
+	void StopSmash();
+
+	UFUNCTION()
+	void StopMagnet();
+
+	void CoinMagnet();
+
 private:
 	short CurrentLocation;
 	FVector DesiredLocation;
 	bool bBeingPushed;
+	bool CanSmash;
+	bool CanMagnet;
 
 public:	
 	// Called every frame
@@ -66,4 +86,5 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void ScoreUp();
+	void PowerUp(EPowerUp Type);
 };

@@ -35,6 +35,8 @@ public:
 	UFUNCTION()
 	int32 GetGameLevel();
 
+	void ReduceGameSpeed();
+
 protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)

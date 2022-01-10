@@ -1,5 +1,5 @@
-#include "PowerUpPlugin.h"
 #include "PowerUpObject.h"
+#include "PowerUpPlugin.h"
 
 UPowerUpObject::UPowerUpObject(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)

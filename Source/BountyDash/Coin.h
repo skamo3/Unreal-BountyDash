@@ -23,4 +23,7 @@ class BOUNTYDASH_API ACoin : public ABountyDashObject
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* Mesh;
+
+public:
+	bool BeingPulled;
 };

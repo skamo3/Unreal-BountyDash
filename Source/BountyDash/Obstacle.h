@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
 #include "BountyDashObject.h"
+#include "DestructibleComponent.h"
 #include "Obstacle.generated.h"
 
 
@@ -18,8 +19,10 @@ public:
 	// Sets default values for this actor's properties
 	AObstacle();
 
+	UDestructibleComponent* GetDestructable();
+
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent* Mesh;
+	UPROPERTY(EditAnywhere)
+	UDestructibleComponent* Mesh;
 
 };

@@ -12,6 +12,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "EngineUtils.h"
+#include "Coin.h"
 #include "Obstacle.h"
 
 
@@ -106,6 +107,11 @@ void ABountyDashCharacter::Tick(float DeltaTime)
 		float moveSpeed = GetCustomGameMode<ABountyDashGameMode>(GetWorld())->GetInvGameSpeed();
 		AddActorLocalOffset(FVector(moveSpeed, 0.0f, 0.0f));
 	}
+
+	if (CanMagnet)
+	{
+		CoinMagnet();
+	}
 }
 
 // Called to bind functionality to input
@@ -163,7 +169,15 @@ void ABountyDashCharacter::MyOnComponentOverlap(UPrimitiveComponent* OverlappedC
 		AngleBetween *= (180 / PI);
 		if (AngleBetween < 60.0f)
 		{
-			this->bBeingPushed = true;
+			AObstacle* pObs = Cast<AObstacle>(OtherActor);
+			if (pObs && CanSmash)
+			{
+				pObs->GetDestructable()->ApplyRadiusDamage(10000, GetActorLocation(), 10000, 10000, true);
+			}
+			else
+			{
+				this->bBeingPushed = true;
+			}
 		}
 	}
 }
@@ -181,4 +195,49 @@ void ABountyDashCharacter::ScoreUp()
 {
 	this->Score++;
 	GetCustomGameMode<ABountyDashGameMode>(GetWorld())->CharScoreUp(Score);
+}
+
+void ABountyDashCharacter::PowerUp(EPowerUp Type)
+{
+	FTimerHandle newTimer;
+	switch (Type)
+	{
+	case EPowerUp::SPEED:
+		GetCustomGameMode<ABountyDashGameMode>(GetWorld())->ReduceGameSpeed();
+		break;
+	case EPowerUp::SMASH:
+		CanSmash = true;
+		GetWorld()->GetTimerManager().SetTimer(newTimer, this, &ABountyDashCharacter::StopSmash, SmashTime, false);
+		break;
+	case EPowerUp::MAGNET:
+		CanMagnet = true;
+		GetWorld()->GetTimerManager().SetTimer(newTimer, this, &ABountyDashCharacter::StopMagnet, MagnetTime, false);
+		break;
+	default:
+		break;
+	}
+}
+
+void ABountyDashCharacter::StopMagnet()
+{
+	CanMagnet = false;
+}
+
+void ABountyDashCharacter::StopSmash()
+{
+	CanSmash = false;
+}
+
+void ABountyDashCharacter::CoinMagnet()
+{
+	for (TActorIterator<ACoin> coinIter(GetWorld()); coinIter; ++coinIter)
+	{
+		FVector between = GetActorLocation() - coinIter->GetActorLocation();
+		if (FMath::Abs(between.Size()) < MagnetReach)
+		{
+			FVector CoinPos = FMath::Lerp((*coinIter)->GetActorLocation(), GetActorLocation(), 0.2f);
+			(*coinIter)->SetActorLocation(CoinPos);
+			(*coinIter)->BeingPulled = true;
+		}
+	}
 }
