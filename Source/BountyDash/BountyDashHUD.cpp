@@ -29,4 +29,14 @@ void ABountyDashHUD::DrawHUD()
 		DashCharacter->GetScore(), DashGameMode->GetRunTime());
 
 	DrawText(HUDString, FColor::Yellow, 50, 50, HUDFont);
+
+	if (DashGameMode->GetGameOver())
+	{
+		FVector2D GameOverSize;
+		GetTextSize(TEXT("GAME OVER!! Press R to Restart!"), GameOverSize.X, GameOverSize.Y, HUDFont);
+
+		DrawText(TEXT("GAME OVER!! Press R to Restart!"), FColor::Yellow, (ScreenDimensions.X - GameOverSize.X) / 2.0f, (ScreenDimensions.Y - GameOverSize.Y) / 2.0f, HUDFont);
+
+		DashGameMode->SetGamePaused(true);
+	}
 }

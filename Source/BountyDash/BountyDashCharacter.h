@@ -71,6 +71,11 @@ protected:
 
 	void CoinMagnet();
 
+	UFUNCTION()
+	void Reset();
+
+	float Killpoint;
+
 private:
 	short CurrentLocation;
 	FVector DesiredLocation;

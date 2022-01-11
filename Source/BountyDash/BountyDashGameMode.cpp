@@ -14,6 +14,12 @@ ABountyDashGameMode::ABountyDashGameMode()
 	this->gameSpeedIncrease = 5.0f;
 	this->gameLevel = 1;
 	HUDClass = ABountyDashHUD::StaticClass();
+
+	RunTime = 0.0f;
+	bGameOver = false;
+	startGameOverCount = false;
+	timeTillGameOver = 2.0f;
+	gameOverTimer = 0.0f;
 }
 
 
@@ -53,10 +59,40 @@ void ABountyDashGameMode::ReduceGameSpeed()
 
 void ABountyDashGameMode::Tick(float DeltaTime)
 {
-	RunTime += DeltaTime;
+	if (!startGameOverCount)
+	{
+		RunTime += DeltaTime;
+	}
+	else
+	{
+		gameOverTimer += DeltaTime;
+		if (gameOverTimer >= timeTillGameOver)
+		{
+			bGameOver = true;
+		}
+	}
 }
 
 float ABountyDashGameMode::GetRunTime()
 {
 	return RunTime;
+}
+
+bool ABountyDashGameMode::GetGameOver()
+{
+	return bGameOver;
+}
+
+void ABountyDashGameMode::GameOver()
+{
+	startGameOverCount = true;
+}
+
+void ABountyDashGameMode::SetGamePaused(bool gamePaused)
+{
+	APlayerController* myPlayer = GetWorld()->GetFirstPlayerController();
+	if (myPlayer != nullptr)
+	{
+		myPlayer->SetPause(gamePaused);
+	}
 }
