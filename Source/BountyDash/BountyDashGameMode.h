@@ -37,6 +37,10 @@ public:
 
 	void ReduceGameSpeed();
 
+	float GetRunTime();
+	UFUNCTION()
+	virtual void Tick(float DeltaTime) override;
+
 protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -44,5 +48,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float gameSpeedIncrease;
+
+	UPROPERTY()
+	float RunTime;
 	
 };

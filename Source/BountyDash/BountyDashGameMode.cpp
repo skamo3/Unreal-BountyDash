@@ -3,6 +3,7 @@
 
 #include "BountyDashGameMode.h"
 #include "BountyDashCharacter.h"
+#include "BountyDashHUD.h"
 
 ABountyDashGameMode::ABountyDashGameMode()
 {
@@ -12,7 +13,9 @@ ABountyDashGameMode::ABountyDashGameMode()
 	this->gameSpeed = 10.0f;
 	this->gameSpeedIncrease = 5.0f;
 	this->gameLevel = 1;
+	HUDClass = ABountyDashHUD::StaticClass();
 }
+
 
 void ABountyDashGameMode::CharScoreUp(unsigned int charScore)
 {
@@ -46,4 +49,14 @@ void ABountyDashGameMode::ReduceGameSpeed()
 		gameSpeed -= gameSpeedIncrease;
 		gameLevel--;
 	}
+}
+
+void ABountyDashGameMode::Tick(float DeltaTime)
+{
+	RunTime += DeltaTime;
+}
+
+float ABountyDashGameMode::GetRunTime()
+{
+	return RunTime;
 }

@@ -87,4 +87,5 @@ public:
 
 	void ScoreUp();
 	void PowerUp(EPowerUp Type);
+	int GetScore();
 };

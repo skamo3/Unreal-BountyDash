@@ -241,3 +241,8 @@ void ABountyDashCharacter::CoinMagnet()
 		}
 	}
 }
+
+int ABountyDashCharacter::GetScore()
+{
+	return Score;
+}
