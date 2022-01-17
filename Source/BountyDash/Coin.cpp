@@ -4,6 +4,7 @@
 #include "BountyDashCharacter.h"
 #include "BountyDashGameMode.h"
 #include "Obstacle.h"
+#include "BountyDashParticle.h"
 
 
 ACoin::ACoin()
@@ -37,6 +38,8 @@ void ACoin::MyOnActorOverlap(AActor* OverlappedActor, AActor* otherActor)
 
 	if (otherActor->GetClass()->IsChildOf(ABountyDashCharacter::StaticClass()))
 	{
+		ABountyDashParticle* particleSys = GetWorld()->SpawnActor<ABountyDashParticle>(ABountyDashParticle::StaticClass(), GetTransform());
+		particleSys->SetKillPoint(GetKillPoint());
 		ABountyDashCharacter* myChar = Cast<ABountyDashCharacter>(otherActor);
 		myChar->ScoreUp();
 		GetWorld()->DestroyActor(this);

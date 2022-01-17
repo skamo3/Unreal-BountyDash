@@ -15,6 +15,8 @@
 #include "Coin.h"
 #include "Obstacle.h"
 #include "Floor.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundCue.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -67,6 +69,27 @@ ABountyDashCharacter::ABountyDashCharacter()
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
+	hitObstacleSound = CreateDefaultSubobject<UAudioComponent>(TEXT("HitSound"));
+	hitObstacleSound->bAutoActivate = false;
+	hitObstacleSound->AttachTo(RootComponent);
+
+	ConstructorHelpers::FObjectFinder<USoundCue> mySoundCue(TEXT("/Game/Contents/Sounds/GruntCue.GruntCue"));
+
+	if (mySoundCue.Succeeded())
+	{
+		hitObstacleSound->SetSound(mySoundCue.Object);
+	}
+
+	dingSound = CreateDefaultSubobject<UAudioComponent>(TEXT("Ding"));
+	dingSound->bAutoActivate = false;
+	dingSound->AttachTo(RootComponent);
+
+	ConstructorHelpers::FObjectFinder<USoundCue> myCue(TEXT("/Game/Contents/Sounds/DingCue.DingCue"));
+	if (myCue.Succeeded())
+	{
+		dingSound->SetSound(mySoundCue.Object);
+	}
+	
 }
 
 // Called when the game starts or when spawned
@@ -183,6 +206,11 @@ void ABountyDashCharacter::MyOnComponentOverlap(UPrimitiveComponent* OverlappedC
 		if (AngleBetween < 60.0f)
 		{
 			AObstacle* pObs = Cast<AObstacle>(OtherActor);
+
+			if (!bBeingPushed)
+			{
+				hitObstacleSound->Play();
+			}
 			if (pObs && CanSmash)
 			{
 				pObs->GetDestructable()->ApplyRadiusDamage(10000, GetActorLocation(), 10000, 10000, true);
@@ -208,6 +236,7 @@ void ABountyDashCharacter::ScoreUp()
 {
 	this->Score++;
 	GetCustomGameMode<ABountyDashGameMode>(GetWorld())->CharScoreUp(Score);
+	dingSound->Play();
 }
 
 void ABountyDashCharacter::PowerUp(EPowerUp Type)
