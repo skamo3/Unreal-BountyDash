@@ -88,6 +88,7 @@ void ACoinSpawner::SpawnCoin()
 
 		if (spawnedCoin)
 		{
+			spawnedCoin->SetKillPoint(KillPoint);
 			USphereComponent* coinSphere = Cast<USphereComponent>(spawnedCoin->GetComponentByClass(USphereComponent::StaticClass()));
 
 			if (coinSphere)
