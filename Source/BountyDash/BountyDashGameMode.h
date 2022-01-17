@@ -18,10 +18,11 @@ class BOUNTYDASH_API ABountyDashGameMode : public AGameMode
 	UPROPERTY()
 	float gameSpeed;
 
-	UPROPERTY()
-	int32 gameLevel;
 
 public:
+	UPROPERTY(BlueprintReadWrite, Category = gameplay)
+	int32 gameLevel;
+
 	ABountyDashGameMode();
 
 	void CharScoreUp(unsigned int charScore);
