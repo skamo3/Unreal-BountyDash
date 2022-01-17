@@ -38,7 +38,6 @@ void ABountyDashObject::Tick(float DeltaTime)
 
 	if (GetActorLocation().X < this->KillPoint)
 	{
-		//UE_LOG(LogTemp, Display, TEXT("Kill point : %f"), KillPoint);
 		Destroy();
 	}
 }
