@@ -11,5 +11,7 @@
 >A, D => 좌, 우 이동   
 >Space => 점프  
 
+## 프로젝트 시연 영상
+- [유튜브로 연결](https://www.youtube.com/watch?v=8p0gt-H8_HI)  
 
 ![smallBounty](https://user-images.githubusercontent.com/54701846/150329161-3718eb5d-09d3-41e9-9cc6-361a0d54f968.gif)
